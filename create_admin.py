@@ -8,20 +8,14 @@ db = SessionLocal()
 
 admin = Account(
     username="admin",
+    email="admin@gmail.com",
+    phone_number="9999999999",
     password=hash_password("admin123"),
     role="admin"
 )
 
-user = Account(
-    username="kartik",
-    password=hash_password("user123"),
-    role="user"
-)
-
 db.add(admin)
-
-db.add(user)
 
 db.commit()
 
-print("Accounts Created")
+print("Admin Created")

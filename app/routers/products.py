@@ -37,11 +37,8 @@ def create_product(
         image_url=product.image_url,
         category=product.category
     )
-
     db.add(new_product)
-
     db.commit()
-
     db.refresh(new_product)
 
     return new_product
@@ -67,14 +64,12 @@ def delete_product(
     ).first()
 
     if not product:
-
         raise HTTPException(
             status_code=404,
             detail="Product not found"
         )
 
     db.delete(product)
-
     db.commit()
 
     return {
@@ -94,7 +89,6 @@ def update_product(
     ).first()
 
     if not product:
-
         raise HTTPException(
             status_code=404,
             detail="Product not found"

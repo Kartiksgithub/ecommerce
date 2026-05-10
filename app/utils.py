@@ -28,3 +28,9 @@ def generate_product_id():
         "pid"
         + now.strftime("%d%m%y%H%M%S")
     )
+
+def generate_order_id():
+
+    return "oid" + datetime.now().strftime(
+        "%d%m%y%H%M%S"
+    )
