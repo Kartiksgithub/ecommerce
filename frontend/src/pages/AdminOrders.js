@@ -43,6 +43,7 @@ function AdminOrders() {
             <th>Pincode</th>
             <th>State</th>
             <th>District</th>
+            <th>Phone Number</th>
             <th>Status</th>
           </tr>
 
@@ -60,6 +61,7 @@ function AdminOrders() {
               <td>{order.pincode}</td>
               <td>{order.state}</td>
               <td>{order.district}</td>
+              <td>{order.phone_number}</td>
               <td>
 
                 <select

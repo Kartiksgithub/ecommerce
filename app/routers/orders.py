@@ -55,6 +55,7 @@ def create_order(
         pincode = order.pincode,
         state = order.state,
         district = order.district,
+        phone_number=order.phone_number,
     )
 
     db.add(new_order)

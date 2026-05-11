@@ -26,7 +26,8 @@ function Checkout() {
     address: '',
     pincode: '',
     state: '',
-    district: ''
+    district: '',
+    phone_number: ''
   });
 
   useEffect(() => {
@@ -71,10 +72,11 @@ function Checkout() {
       !formData.address ||
       !formData.pincode ||
       !formData.state ||
-      !formData.district
+      !formData.district ||
+      !formData.phone_number
     ) {
 
-      alert('Please fill all address details');
+      alert('Please fill all details');
 
       return;
     }
@@ -82,9 +84,12 @@ function Checkout() {
     // PINCODE VALIDATION
 
     if (formData.pincode.length !== 6) {
-
       alert('Pincode must be 6 digits');
+      return;
+    }
 
+    if (formData.phone_number.length !== 10) {
+      alert('Phone number must be 10 digits');
       return;
     }
 
@@ -93,18 +98,13 @@ function Checkout() {
       setLoading(true);
 
       await API.post('/orders/', {
-
         product_id: productId,
-
         quantity: parseInt(quantity),
-
         address: formData.address,
-
         pincode: parseInt(formData.pincode),
-
         state: formData.state,
-
-        district: formData.district
+        district: formData.district,
+        phone_number: parseInt(formData.phone_number),
       });
 
       alert('Order placed successfully');
@@ -207,6 +207,15 @@ function Checkout() {
             name="district"
             placeholder="District"
             className="form-control mb-4"
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type="number"
+            name="phone_number"
+            placeholder="Phone Number"
+            className="form-control mb-3"
             onChange={handleChange}
             required
           />

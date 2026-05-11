@@ -30,6 +30,7 @@ function Cart() {
             <th>Pincode</th>
             <th>District</th>
             <th>State</th>
+            <th>Phone Number</th>
             <th>Status</th>
           </tr>
         </thead>
@@ -43,6 +44,7 @@ function Cart() {
               <td>{order.pincode}</td>
               <td>{order.district}</td>
               <td>{order.state}</td>
+              <td>{order.phone_number}</td>
               <td>{order.status}</td>
             </tr>
           ))}

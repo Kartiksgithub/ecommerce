@@ -3,7 +3,8 @@ from sqlalchemy import (
     String,
     Integer,
     Float,
-    DateTime
+    DateTime,
+    BigInteger
 )
 
 from datetime import datetime
@@ -87,6 +88,7 @@ class Order(Base):
     pincode = Column(Integer)
     state = Column(String)
     district = Column(String)
+    phone_number = Column(BigInteger)
     timestamp = Column(
         DateTime,
         default=datetime.utcnow

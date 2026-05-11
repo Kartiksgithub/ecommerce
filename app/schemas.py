@@ -37,6 +37,7 @@ class OrderCreate(BaseModel):
     pincode: int
     state: str
     district: str
+    phone_number: int
 
 class OrderUpdate(BaseModel):
     status: str
