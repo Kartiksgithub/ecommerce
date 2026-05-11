@@ -1,0 +1,79 @@
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from 'react-router-dom';
+
+import Navbar from './components/Navbar';
+
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Products from './pages/Products';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+
+import AdminDashboard from './pages/AdminDashboard';
+import AdminOrders from './pages/AdminOrders';
+import CreateProduct from './pages/CreateProduct';
+
+function App() {
+
+  return (
+
+    <BrowserRouter>
+
+      {/* NAVBAR */}
+
+      <Navbar />
+
+      {/* ROUTES */}
+
+      <Routes>
+
+        <Route
+          path="/"
+          element={<Products />}
+        />
+
+        <Route
+          path="/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/register"
+          element={<Register />}
+        />
+
+        <Route
+          path="/cart"
+          element={<Cart />}
+        />
+
+        <Route
+          path="/checkout/:productId"
+          element={<Checkout />}
+        />
+
+        <Route
+          path="/admin"
+          element={<AdminDashboard />}
+        />
+
+        <Route
+          path="/admin/orders"
+          element={<AdminOrders />}
+        />
+
+        <Route
+          path="/admin/create-product"
+          element={<CreateProduct />}
+        />
+
+      </Routes>
+
+    </BrowserRouter>
+  );
+}
+
+export default App;

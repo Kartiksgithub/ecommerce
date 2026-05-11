@@ -2,3 +2,21 @@ venv/
 __pycache__/
 .env
 *.pyc
+
+
+# frontend
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# # React Frontend
+# frontend/node_modules/
+# frontend/dist/
+# frontend/build/
+# frontend/.pnp
+# frontend/.pnp.js
+
+# # System files
+# .DS_Store
+# Thumbs.db

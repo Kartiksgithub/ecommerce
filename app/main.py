@@ -8,6 +8,7 @@ from app.routers import (
     products,
     orders
 )
+from fastapi.middleware.cors import CORSMiddleware
 
 Base.metadata.create_all(bind=engine)
 
@@ -23,3 +24,11 @@ def home():
     return {
         "message": "Ecommerce Backend Running"
     }
+    
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"]
+)
