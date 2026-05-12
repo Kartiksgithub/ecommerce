@@ -57,11 +57,29 @@ function Navbar() {
         className="navbar-brand fw-bold"
         to="/"
       >
-        Yarn Crochet Store
+        Yarn Algorithms ~ Crochet Store
       </Link>
 
       <div className="navbar-nav ms-auto">
 
+        
+
+        <Link
+          className="nav-link"
+          to="/home"
+          style={activeStyle('/home')}
+          onMouseEnter={(e) => {
+            e.target.style.color = '#FFD6A5';
+          }}
+          onMouseLeave={(e) => {
+            if (location.pathname !== '/') {
+              e.target.style.color = 'white';
+            }
+          }}
+          >
+            Home
+        </Link>
+        
         {/* PRODUCTS */}
 
         <Link

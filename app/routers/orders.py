@@ -86,11 +86,11 @@ def get_all_orders(
 
 
 @router.put("/{order_id}")
-def update_order_status(
+def update_order(
     order_id: str,
     updated_order: OrderUpdate,
     db: Session = Depends(get_db),
-    admin: dict = Depends(admin_required)
+    payload: dict = Depends(verify_token)
 ):
 
     order = db.query(Order).filter(
@@ -103,7 +103,38 @@ def update_order_status(
             detail="Order not found"
         )
 
-    order.status = updated_order.status
+    # Check if user is admin or owner of the order
+    is_admin = payload.get("role") == "admin"
+    is_owner = order.username == payload.get("sub")
+
+    if not is_admin and not is_owner:
+        raise HTTPException(
+            status_code=403,
+            detail="You don't have permission to update this order"
+        )
+
+    # Update fields
+    if updated_order.status is not None:
+        order.status = updated_order.status
+    if updated_order.quantity is not None:
+        order.quantity = updated_order.quantity
+        # Recalculate total price
+        product = db.query(Product).filter(
+            Product.product_id == order.product_id
+        ).first()
+        if product:
+            order.total_price = product.price * updated_order.quantity
+    if updated_order.address is not None:
+        order.address = updated_order.address
+    if updated_order.pincode is not None:
+        order.pincode = updated_order.pincode
+    if updated_order.state is not None:
+        order.state = updated_order.state
+    if updated_order.district is not None:
+        order.district = updated_order.district
+    if updated_order.phone_number is not None:
+        order.phone_number = updated_order.phone_number
+
     db.commit()
     db.refresh(order)
 
@@ -116,7 +147,7 @@ def update_order_status(
 def delete_order(
     order_id: str,
     db: Session = Depends(get_db),
-    admin: dict = Depends(admin_required)
+    payload: dict = Depends(verify_token)
 ):
 
     order = db.query(Order).filter(
@@ -129,9 +160,19 @@ def delete_order(
             detail="Order not found"
         )
 
+    # Check if user is admin or owner of the order
+    is_admin = payload.get("role") == "admin"
+    is_owner = order.username == payload.get("sub")
+
+    if not is_admin and not is_owner:
+        raise HTTPException(
+            status_code=403,
+            detail="You don't have permission to delete this order"
+        )
+
     db.delete(order)
     db.commit()
 
     return {
-        "message": "Order deleted"
+        "message": "Order deleted successfully"
     }

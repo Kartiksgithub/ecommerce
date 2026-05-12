@@ -40,4 +40,10 @@ class OrderCreate(BaseModel):
     phone_number: int
 
 class OrderUpdate(BaseModel):
-    status: str
+    status: str | None = None
+    quantity: int | None = None
+    address: str | None = None
+    pincode: int | None = None
+    state: str | None = None
+    district: str | None = None
+    phone_number: int | None = None
