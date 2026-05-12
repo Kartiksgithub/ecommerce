@@ -70,7 +70,17 @@ function Products() {
               <div
                 className="card border-0 shadow-lg h-100"
                 style={{
-                  borderRadius: '20px'
+                  borderRadius: '20px',
+                  transition: 'all 0.3s ease',
+                  cursor: 'pointer'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-10px)';
+                  e.currentTarget.style.boxShadow = '0 15px 30px rgba(0,0,0,0.2)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '';
                 }}
               >
 
@@ -110,7 +120,16 @@ function Products() {
                     style={{
                       backgroundColor: '#D4A373',
                       color: 'white',
-                      borderRadius: '12px'
+                      borderRadius: '12px',
+                      transition: 'all 0.3s ease'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = '#b07d4f';
+                      e.target.style.transform = 'scale(1.05)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = '#D4A373';
+                      e.target.style.transform = 'scale(1)';
                     }}
                     onClick={() => buyNow(product.product_id)}
                   >
