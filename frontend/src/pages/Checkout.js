@@ -107,7 +107,7 @@ function Checkout() {
         phone_number: parseInt(formData.phone_number),
       });
 
-      alert('Order placed successfully');
+      alert('Order placed successfully. Our customer representative will contact you soon for payment details.');
 
       navigate('/cart');
 
