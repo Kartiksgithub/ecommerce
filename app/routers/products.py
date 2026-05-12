@@ -34,7 +34,7 @@ def create_product(
         product_name=product.product_name,
         price=product.price,
         description=product.description,
-        image_url=product.image_url,
+        image_urls=product.image_urls,
         category=product.category
     )
     db.add(new_product)
@@ -97,7 +97,7 @@ def update_product(
     product.product_name = updated_product.product_name
     product.price = updated_product.price
     product.description = updated_product.description
-    product.image_url = updated_product.image_url
+    product.image_urls = updated_product.image_urls
     product.category = updated_product.category
 
     db.commit()

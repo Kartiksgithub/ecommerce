@@ -1,0 +1,95 @@
+.product-card {
+  position: relative;
+}
+
+.image-carousel-container {
+  position: relative;
+  overflow: hidden;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 20px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  z-index: 10;
+  opacity: 0;
+}
+
+.carousel-btn:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.product-card:hover .carousel-btn {
+  opacity: 1;
+}
+
+.carousel-btn-prev {
+  left: 10px;
+}
+
+.carousel-btn-next {
+  right: 10px;
+}
+
+.image-indicators {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.indicator-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.indicator-dot:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+  transform: scale(1.2);
+}
+
+.indicator-dot.active {
+  background-color: rgba(255, 255, 255, 1);
+  transform: scale(1.3);
+}
+
+/* Smooth transition for image changes */
+.card-img-top {
+  transition: opacity 0.3s ease !important;
+}
+
+@media (max-width: 768px) {
+  .carousel-btn {
+    padding: 8px 12px;
+    font-size: 16px;
+  }
+
+  .image-indicators {
+    bottom: 8px;
+    gap: 6px;
+  }
+
+  .indicator-dot {
+    width: 8px;
+    height: 8px;
+  }
+}

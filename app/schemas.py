@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, field_validator
 from datetime import datetime
 
 class RegisterSchema(BaseModel):
@@ -11,16 +11,30 @@ class ProductCreate(BaseModel):
     product_name: str
     price: float
     description: str
-    image_url: str
+    image_urls: list[str]
     category: str
+    
+    @field_validator('image_urls')
+    @classmethod
+    def validate_image_urls(cls, v):
+        if not v or len(v) == 0:
+            raise ValueError('At least one image URL is required')
+        return v
     
     
 class ProductUpdate(BaseModel):
     product_name: str
     price: float
     description: str
-    image_url: str
+    image_urls: list[str]
     category: str
+    
+    @field_validator('image_urls')
+    @classmethod
+    def validate_image_urls(cls, v):
+        if not v or len(v) == 0:
+            raise ValueError('At least one image URL is required')
+        return v
 
 
 class ProductResponse(ProductCreate):

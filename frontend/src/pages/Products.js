@@ -3,10 +3,12 @@ import {
   useNavigate
 } from 'react-router-dom';
 import API from '../api/axios';
+import './Products.css';
 
 function Products() {
 
   const [products, setProducts] = useState([]);
+  const [imageIndex, setImageIndex] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +22,13 @@ function Products() {
     const response = await API.get('/products/');
 
     setProducts(response.data);
+    
+    // Initialize image index for each product
+    const indexes = {};
+    response.data.forEach(product => {
+      indexes[product.product_id] = 0;
+    });
+    setImageIndex(indexes);
   };
 
   const buyNow = (productId) => {
@@ -29,6 +38,22 @@ function Products() {
       return;
     }
     navigate(`/checkout/${productId}`);
+  };
+
+  // Handle next image
+  const nextImage = (productId, totalImages) => {
+    setImageIndex(prev => ({
+      ...prev,
+      [productId]: (prev[productId] + 1) % totalImages
+    }));
+  };
+
+  // Handle previous image
+  const prevImage = (productId, totalImages) => {
+    setImageIndex(prev => ({
+      ...prev,
+      [productId]: (prev[productId] - 1 + totalImages) % totalImages
+    }));
   };
 
   return (
@@ -60,88 +85,142 @@ function Products() {
 
         <div className="row">
 
-          {products.map((product) => (
+          {products.map((product) => {
+            const currentImageIndex = imageIndex[product.product_id] || 0;
+            const currentImage = product.image_urls && product.image_urls.length > 0 
+              ? product.image_urls[currentImageIndex] 
+              : '/placeholder.png';
+            const totalImages = product.image_urls ? product.image_urls.length : 0;
 
-            <div
-              className="col-md-4 mb-4"
-              key={product.product_id}
-            >
-
+            return (
               <div
-                className="card border-0 shadow-lg h-100"
-                style={{
-                  borderRadius: '20px',
-                  transition: 'all 0.3s ease',
-                  cursor: 'pointer'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-10px)';
-                  e.currentTarget.style.boxShadow = '0 15px 30px rgba(0,0,0,0.2)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0)';
-                  e.currentTarget.style.boxShadow = '';
-                }}
+                className="col-md-4 mb-4"
+                key={product.product_id}
               >
 
-                <img
-                  src={product.image_url}
-                  alt={product.product_name}
-                  className="card-img-top"
+                <div
+                  className="card border-0 shadow-lg h-100 product-card"
                   style={{
-                    height: '300px',
-                    objectFit: 'cover',
-                    borderTopLeftRadius: '20px',
-                    borderTopRightRadius: '20px'
+                    borderRadius: '20px',
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer'
                   }}
-                />
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'translateY(-10px)';
+                    e.currentTarget.style.boxShadow = '0 15px 30px rgba(0,0,0,0.2)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'translateY(0)';
+                    e.currentTarget.style.boxShadow = '';
+                  }}
+                >
 
-                <div className="card-body d-flex flex-column">
+                  {/* IMAGE CAROUSEL */}
+                  <div className="image-carousel-container">
+                    <img
+                      src={currentImage}
+                      alt={product.product_name}
+                      className="card-img-top"
+                      style={{
+                        height: '300px',
+                        objectFit: 'cover',
+                        borderTopLeftRadius: '20px',
+                        borderTopRightRadius: '20px'
+                      }}
+                    />
 
-                  <h4
-                    className="fw-bold"
-                    style={{
-                      color: '#5C4033'
-                    }}
-                  >
-                    {product.product_name}
-                  </h4>
+                    {/* CAROUSEL CONTROLS - Only show if multiple images */}
+                    {totalImages > 1 && (
+                      <>
+                        <button
+                          className="carousel-btn carousel-btn-prev"
+                          onClick={() => prevImage(product.product_id, totalImages)}
+                          title="Previous image"
+                        >
+                          &#10094;
+                        </button>
+                        <button
+                          className="carousel-btn carousel-btn-next"
+                          onClick={() => nextImage(product.product_id, totalImages)}
+                          title="Next image"
+                        >
+                          &#10095;
+                        </button>
 
-                  <p className="text-muted flex-grow-1">
-                    {product.description}
-                  </p>
+                        {/* IMAGE INDICATOR DOTS */}
+                        <div className="image-indicators">
+                          {product.image_urls.map((_, index) => (
+                            <div
+                              key={index}
+                              className={`indicator-dot ${
+                                index === currentImageIndex ? 'active' : ''
+                              }`}
+                              onClick={() => setImageIndex(prev => ({
+                                ...prev,
+                                [product.product_id]: index
+                              }))}
+                              title={`Image ${index + 1}`}
+                            ></div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
 
-                  <h5 className="fw-bold mb-3">
-                    ₹ {product.price}
-                  </h5>
+                  <div className="card-body d-flex flex-column">
 
-                  <button
-                    className="btn"
-                    style={{
-                      backgroundColor: '#D4A373',
-                      color: 'white',
-                      borderRadius: '12px',
-                      transition: 'all 0.3s ease'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = '#b07d4f';
-                      e.target.style.transform = 'scale(1.05)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = '#D4A373';
-                      e.target.style.transform = 'scale(1)';
-                    }}
-                    onClick={() => buyNow(product.product_id)}
-                  >
-                    Buy Now
-                  </button>
+                    <h4
+                      className="fw-bold"
+                      style={{
+                        color: '#5C4033'
+                      }}
+                    >
+                      {product.product_name}
+                    </h4>
+
+                    <p className="text-muted flex-grow-1">
+                      {product.description}
+                    </p>
+
+                    <h5 className="fw-bold mb-3">
+                      ₹ {product.price}
+                    </h5>
+
+                    {/* Show image count if multiple images */}
+                    {totalImages > 1 && (
+                      <small className="text-muted mb-3">
+                        {currentImageIndex + 1} / {totalImages} images
+                      </small>
+                    )}
+
+                    <button
+                      className="btn"
+                      style={{
+                        backgroundColor: '#D4A373',
+                        color: 'white',
+                        borderRadius: '12px',
+                        transition: 'all 0.3s ease'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.backgroundColor = '#b07d4f';
+                        e.target.style.transform = 'scale(1.05)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.backgroundColor = '#D4A373';
+                        e.target.style.transform = 'scale(1)';
+                      }}
+                      onClick={() => buyNow(product.product_id)}
+                    >
+                      Buy Now
+                    </button>
+
+                  </div>
 
                 </div>
 
               </div>
-
-            </div>
-          ))}
+            );
+          })}
 
         </div>
 

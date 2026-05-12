@@ -142,7 +142,7 @@ function Checkout() {
         <div className="col-md-5">
 
           <img
-            src={product.image_url}
+            src={product.image_urls && product.image_urls.length > 0 ? product.image_urls[0] : '/placeholder.png'}
             alt={product.product_name}
             className="img-fluid rounded-4"
           />

@@ -4,7 +4,8 @@ from sqlalchemy import (
     Integer,
     Float,
     DateTime,
-    BigInteger
+    BigInteger,
+    JSON
 )
 
 from datetime import datetime
@@ -62,7 +63,7 @@ class Product(Base):
     product_name = Column(String)
     price = Column(Float)
     description = Column(String)
-    image_url = Column(String)
+    image_urls = Column(JSON, default=[])
     category = Column(String)
     timestamp = Column(
         DateTime,
