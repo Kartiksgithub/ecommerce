@@ -186,12 +186,12 @@ function Products() {
                       ₹ {product.price}
                     </h5>
 
-                    {/* Show image count if multiple images */}
+                    {/* Show image count if multiple images
                     {totalImages > 1 && (
                       <small className="text-muted mb-3">
                         {currentImageIndex + 1} / {totalImages} images
                       </small>
-                    )}
+                    )} */}
 
                     <button
                       className="btn"
