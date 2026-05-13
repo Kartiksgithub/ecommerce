@@ -7,6 +7,17 @@ class RegisterSchema(BaseModel):
     phone_number: str
     password: str
 
+class UserProfileUpdate(BaseModel):
+    email: EmailStr
+    phone_number: str
+    
+    @field_validator('phone_number')
+    @classmethod
+    def validate_phone(cls, v):
+        if not v or len(v) < 10:
+            raise ValueError('Phone number must be at least 10 digits')
+        return v
+
 class ProductCreate(BaseModel):
     product_name: str
     price: float

@@ -12,6 +12,7 @@ import Register from './pages/Register';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import UserProfile from './pages/UserProfile';
 
 import AdminDashboard from './pages/AdminDashboard';
 import AdminOrders from './pages/AdminOrders';
@@ -56,6 +57,11 @@ function App() {
         <Route
           path="/checkout/:productId"
           element={<Checkout />}
+        />
+
+        <Route
+          path="/profile"
+          element={<UserProfile />}
         />
 
         <Route

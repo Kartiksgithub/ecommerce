@@ -135,21 +135,41 @@ function Navbar() {
 
           {token && role === 'user' && (
 
-            <Link
-              className="nav-link"
-              to="/cart"
-              style={activeStyle('/cart')}
-              onMouseEnter={(e) => {
-                e.target.style.color = '#FFD6A5';
-              }}
-              onMouseLeave={(e) => {
-                if (location.pathname !== '/cart') {
-                  e.target.style.color = 'white';
-                }
-              }}
-            >
-              My Orders
-            </Link>
+            <>
+
+              <Link
+                className="nav-link"
+                to="/cart"
+                style={activeStyle('/cart')}
+                onMouseEnter={(e) => {
+                  e.target.style.color = '#FFD6A5';
+                }}
+                onMouseLeave={(e) => {
+                  if (location.pathname !== '/cart') {
+                    e.target.style.color = 'white';
+                  }
+                }}
+              >
+                My Orders
+              </Link>
+
+              <Link
+                className="nav-link"
+                to="/profile"
+                style={activeStyle('/profile')}
+                onMouseEnter={(e) => {
+                  e.target.style.color = '#FFD6A5';
+                }}
+                onMouseLeave={(e) => {
+                  if (location.pathname !== '/profile') {
+                    e.target.style.color = 'white';
+                  }
+                }}
+              >
+                My Profile
+              </Link>
+
+            </>
           )}
 
           {/* ADMIN */}
