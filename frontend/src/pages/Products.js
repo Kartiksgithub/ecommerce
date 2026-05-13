@@ -9,6 +9,9 @@ function Products() {
 
   const [products, setProducts] = useState([]);
   const [imageIndex, setImageIndex] = useState({});
+  const [selectedProduct, setSelectedProduct] = useState(null);
+  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,41 +25,82 @@ function Products() {
     const response = await API.get('/products/');
 
     setProducts(response.data);
-    
-    // Initialize image index for each product
+
+    // Initialize image index
     const indexes = {};
+
     response.data.forEach(product => {
+
       indexes[product.product_id] = 0;
+
     });
+
     setImageIndex(indexes);
   };
 
   const buyNow = (productId) => {
+
     const token = localStorage.getItem('token');
+
     if (!token) {
+
       navigate('/login');
+
       return;
     }
+
     navigate(`/checkout/${productId}`);
   };
 
-  // Handle next image
+  // OPEN PRODUCT MODAL
+
+  const openProductModal = (product) => {
+
+    setSelectedProduct(product);
+
+    setShowModal(true);
+  };
+
+  // CLOSE PRODUCT MODAL
+
+  const closeProductModal = () => {
+
+    setShowModal(false);
+
+    setSelectedProduct(null);
+  };
+
+  // NEXT IMAGE
+
   const nextImage = (productId, totalImages) => {
+
     setImageIndex(prev => ({
+
       ...prev,
-      [productId]: (prev[productId] + 1) % totalImages
+
+      [productId]:
+        (prev[productId] + 1) % totalImages
+
     }));
   };
 
-  // Handle previous image
+  // PREVIOUS IMAGE
+
   const prevImage = (productId, totalImages) => {
+
     setImageIndex(prev => ({
+
       ...prev,
-      [productId]: (prev[productId] - 1 + totalImages) % totalImages
+
+      [productId]:
+        (prev[productId] - 1 + totalImages)
+        % totalImages
+
     }));
   };
 
   return (
+
     <div
       style={{
         backgroundColor: '#FFF8F3',
@@ -86,13 +130,23 @@ function Products() {
         <div className="row">
 
           {products.map((product) => {
-            const currentImageIndex = imageIndex[product.product_id] || 0;
-            const currentImage = product.image_urls && product.image_urls.length > 0 
-              ? product.image_urls[currentImageIndex] 
-              : '/placeholder.png';
-            const totalImages = product.image_urls ? product.image_urls.length : 0;
+
+            const currentImageIndex =
+              imageIndex[product.product_id] || 0;
+
+            const currentImage =
+              product.image_urls &&
+              product.image_urls.length > 0
+                ? product.image_urls[currentImageIndex]
+                : '/placeholder.png';
+
+            const totalImages =
+              product.image_urls
+                ? product.image_urls.length
+                : 0;
 
             return (
+
               <div
                 className="col-md-4 mb-4"
                 key={product.product_id}
@@ -105,18 +159,31 @@ function Products() {
                     transition: 'all 0.3s ease',
                     cursor: 'pointer'
                   }}
+                  onClick={() =>
+                    openProductModal(product)
+                  }
                   onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-10px)';
-                    e.currentTarget.style.boxShadow = '0 15px 30px rgba(0,0,0,0.2)';
+
+                    e.currentTarget.style.transform =
+                      'translateY(-10px)';
+
+                    e.currentTarget.style.boxShadow =
+                      '0 15px 30px rgba(0,0,0,0.2)';
                   }}
                   onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)';
-                    e.currentTarget.style.boxShadow = '';
+
+                    e.currentTarget.style.transform =
+                      'translateY(0)';
+
+                    e.currentTarget.style.boxShadow =
+                      '';
                   }}
                 >
 
                   {/* IMAGE CAROUSEL */}
+
                   <div className="image-carousel-container">
+
                     <img
                       src={currentImage}
                       alt={product.product_name}
@@ -129,42 +196,82 @@ function Products() {
                       }}
                     />
 
-                    {/* CAROUSEL CONTROLS - Only show if multiple images */}
+                    {/* CONTROLS */}
+
                     {totalImages > 1 && (
+
                       <>
+
                         <button
                           className="carousel-btn carousel-btn-prev"
-                          onClick={() => prevImage(product.product_id, totalImages)}
+                          onClick={(e) => {
+
+                            e.stopPropagation();
+
+                            prevImage(
+                              product.product_id,
+                              totalImages
+                            );
+                          }}
                           title="Previous image"
                         >
                           &#10094;
                         </button>
+
                         <button
                           className="carousel-btn carousel-btn-next"
-                          onClick={() => nextImage(product.product_id, totalImages)}
+                          onClick={(e) => {
+
+                            e.stopPropagation();
+
+                            nextImage(
+                              product.product_id,
+                              totalImages
+                            );
+                          }}
                           title="Next image"
                         >
                           &#10095;
                         </button>
 
-                        {/* IMAGE INDICATOR DOTS */}
+                        {/* INDICATORS */}
+
                         <div className="image-indicators">
-                          {product.image_urls.map((_, index) => (
-                            <div
-                              key={index}
-                              className={`indicator-dot ${
-                                index === currentImageIndex ? 'active' : ''
-                              }`}
-                              onClick={() => setImageIndex(prev => ({
-                                ...prev,
-                                [product.product_id]: index
-                              }))}
-                              title={`Image ${index + 1}`}
-                            ></div>
-                          ))}
+
+                          {product.image_urls.map(
+                            (_, index) => (
+
+                              <div
+                                key={index}
+                                className={`indicator-dot ${
+                                  index ===
+                                  currentImageIndex
+                                    ? 'active'
+                                    : ''
+                                }`}
+                                onClick={(e) => {
+
+                                  e.stopPropagation();
+
+                                  setImageIndex(prev => ({
+
+                                    ...prev,
+
+                                    [product.product_id]:
+                                      index
+
+                                  }));
+                                }}
+                              ></div>
+                            )
+                          )}
+
                         </div>
+
                       </>
+
                     )}
+
                   </div>
 
                   <div className="card-body d-flex flex-column">
@@ -186,13 +293,6 @@ function Products() {
                       ₹ {product.price}
                     </h5>
 
-                    {/* Show image count if multiple images
-                    {totalImages > 1 && (
-                      <small className="text-muted mb-3">
-                        {currentImageIndex + 1} / {totalImages} images
-                      </small>
-                    )} */}
-
                     <button
                       className="btn"
                       style={{
@@ -202,14 +302,27 @@ function Products() {
                         transition: 'all 0.3s ease'
                       }}
                       onMouseEnter={(e) => {
-                        e.target.style.backgroundColor = '#b07d4f';
-                        e.target.style.transform = 'scale(1.05)';
+
+                        e.target.style.backgroundColor =
+                          '#b07d4f';
+
+                        e.target.style.transform =
+                          'scale(1.05)';
                       }}
                       onMouseLeave={(e) => {
-                        e.target.style.backgroundColor = '#D4A373';
-                        e.target.style.transform = 'scale(1)';
+
+                        e.target.style.backgroundColor =
+                          '#D4A373';
+
+                        e.target.style.transform =
+                          'scale(1)';
                       }}
-                      onClick={() => buyNow(product.product_id)}
+                      onClick={(e) => {
+
+                        e.stopPropagation();
+
+                        buyNow(product.product_id);
+                      }}
                     >
                       Buy Now
                     </button>
@@ -225,6 +338,130 @@ function Products() {
         </div>
 
       </div>
+
+      {/* PRODUCT MODAL */}
+
+      {/* PRODUCT MODAL */}
+
+{showModal && selectedProduct && (
+
+  <div className="product-modal-overlay">
+
+    <div className="product-modal">
+
+      <button
+        className="close-modal-btn"
+        onClick={closeProductModal}
+      >
+        ✕
+      </button>
+
+      {/* LEFT IMAGE SECTION */}
+
+      <div className="modal-image-section">
+
+        <img
+          src={
+            selectedProduct.image_urls &&
+            selectedProduct.image_urls.length > 0
+              ? selectedProduct.image_urls[
+                  imageIndex[selectedProduct.product_id] || 0
+                ]
+              : '/placeholder.png'
+          }
+          alt={selectedProduct.product_name}
+          className="modal-product-image"
+        />
+
+        {/* IMAGE THUMBNAILS */}
+
+        {selectedProduct.image_urls &&
+          selectedProduct.image_urls.length > 1 && (
+
+          <div className="thumbnail-container">
+
+            {selectedProduct.image_urls.map(
+              (image, index) => (
+
+                <img
+                  key={index}
+                  src={image}
+                  alt={`thumb-${index}`}
+                  className={`thumbnail-image ${
+                    index ===
+                    (imageIndex[selectedProduct.product_id] || 0)
+                      ? 'active-thumbnail'
+                      : ''
+                  }`}
+                  onClick={() =>
+                    setImageIndex(prev => ({
+                      ...prev,
+                      [selectedProduct.product_id]: index
+                    }))
+                  }
+                />
+              )
+            )}
+
+          </div>
+        )}
+
+      </div>
+
+      {/* RIGHT CONTENT SECTION */}
+
+      <div className="modal-product-content">
+
+        <h2>
+          {selectedProduct.product_name}
+        </h2>
+
+        <p className="modal-price">
+          ₹ {selectedProduct.price}
+        </p>
+
+        <p className="modal-description">
+          {selectedProduct.description}
+        </p>
+
+        <div className="social-links">
+
+          <a
+            href="https://www.instagram.com/poeticart__07?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+            target="_blank"
+            rel="noreferrer"
+            className="social-btn instagram-btn"
+          >
+            Instagram
+          </a>
+
+          <a
+            href="https://www.youtube.com/@YarnAlgorithms"
+            target="_blank"
+            rel="noreferrer"
+            className="social-btn youtube-btn"
+          >
+            YouTube
+          </a>
+
+        </div>
+
+        <button
+          className="btn buy-modal-btn"
+          onClick={() =>
+            buyNow(selectedProduct.product_id)
+          }
+        >
+          Buy Now
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+)}
 
     </div>
   );
