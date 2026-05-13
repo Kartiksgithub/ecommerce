@@ -52,6 +52,7 @@ class OrderCreate(BaseModel):
     state: str
     district: str
     phone_number: int
+    notes: str
 
 class OrderUpdate(BaseModel):
     status: str | None = None
@@ -61,3 +62,4 @@ class OrderUpdate(BaseModel):
     state: str | None = None
     district: str | None = None
     phone_number: int | None = None
+    notes: str | None = None

@@ -56,6 +56,7 @@ def create_order(
         state = order.state,
         district = order.district,
         phone_number=order.phone_number,
+        notes = order.notes,
     )
 
     db.add(new_order)
@@ -134,6 +135,8 @@ def update_order(
         order.district = updated_order.district
     if updated_order.phone_number is not None:
         order.phone_number = updated_order.phone_number
+    if updated_order.notes is not None:
+        order.notes = updated_order.notes
 
     db.commit()
     db.refresh(order)

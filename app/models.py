@@ -90,6 +90,7 @@ class Order(Base):
     state = Column(String)
     district = Column(String)
     phone_number = Column(BigInteger)
+    notes = Column(String)
     timestamp = Column(
         DateTime,
         default=datetime.utcnow

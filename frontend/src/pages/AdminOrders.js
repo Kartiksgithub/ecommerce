@@ -17,7 +17,8 @@ function AdminOrders() {
     pincode: '',
     district: '',
     state: '',
-    phone_number: ''
+    phone_number: '',
+    notes: '',
   });
 
   useEffect(() => {
@@ -63,7 +64,8 @@ function AdminOrders() {
       pincode: order.pincode,
       district: order.district,
       state: order.state,
-      phone_number: order.phone_number
+      phone_number: order.phone_number,
+      notes: order.notes
     });
     setShowEditModal(true);
   };
@@ -78,7 +80,8 @@ function AdminOrders() {
       pincode: '',
       district: '',
       state: '',
-      phone_number: ''
+      phone_number: '',
+      notes: ''
     });
   };
 
@@ -92,7 +95,8 @@ function AdminOrders() {
         pincode: parseInt(formData.pincode),
         district: formData.district,
         state: formData.state,
-        phone_number: parseInt(formData.phone_number)
+        phone_number: parseInt(formData.phone_number),
+        notes: formData.notes
       });
       alert('Order updated successfully');
       closeEditModal();
@@ -261,6 +265,7 @@ function AdminOrders() {
                     <th>Qty</th>
                     <th>Total</th>
                     <th>Location</th>
+                    <th>Instructions</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
@@ -280,6 +285,7 @@ function AdminOrders() {
                           {order.district}, {order.state}
                         </div>
                       </td>
+                      <td className="notes">{order.notes}</td>
                       <td className="status-cell">
                         <select
                           className={`status-select ${getStatusBadgeClass(order.status)}`}
@@ -458,6 +464,18 @@ function AdminOrders() {
                           value={formData.phone_number}
                           onChange={handleInputChange}
                           required
+                        />
+                      </div>
+
+                      <div className="form-group">
+                        <label htmlFor="notes" className="form-label">Instructions</label>
+                        <input
+                          type="text"
+                          className="form-control-custom"
+                          id="notes"
+                          name="notes"
+                          value={formData.notes}
+                          onChange={handleInputChange}
                         />
                       </div>
                     </div>

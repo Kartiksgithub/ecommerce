@@ -27,7 +27,8 @@ function Checkout() {
     pincode: '',
     state: '',
     district: '',
-    phone_number: ''
+    phone_number: '',
+    notes: ''
   });
 
   useEffect(() => {
@@ -105,10 +106,10 @@ function Checkout() {
         state: formData.state,
         district: formData.district,
         phone_number: parseInt(formData.phone_number),
+        notes: formData.notes,
       });
 
       alert('Order placed successfully. Our customer representative will contact you soon for payment details.');
-
       navigate('/cart');
 
     } catch (error) {
@@ -215,6 +216,14 @@ function Checkout() {
             type="number"
             name="phone_number"
             placeholder="Phone Number"
+            className="form-control mb-3"
+            onChange={handleChange}
+            required
+          />
+
+          <textarea
+            name="notes"
+            placeholder="Order Special Instructions"
             className="form-control mb-3"
             onChange={handleChange}
             required

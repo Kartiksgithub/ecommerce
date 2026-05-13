@@ -36,7 +36,8 @@ function Cart() {
       pincode: order.pincode,
       district: order.district,
       state: order.state,
-      phone_number: order.phone_number
+      phone_number: order.phone_number,
+      notes: order.notes
     });
     setShowEditModal(true);
   };
@@ -50,7 +51,8 @@ function Cart() {
       pincode: '',
       district: '',
       state: '',
-      phone_number: ''
+      phone_number: '',
+      notes: ''
     });
   };
 
@@ -63,7 +65,8 @@ function Cart() {
         pincode: parseInt(formData.pincode),
         district: formData.district,
         state: formData.state,
-        phone_number: parseInt(formData.phone_number)
+        phone_number: parseInt(formData.phone_number),
+        notes: formData.notes
       });
       alert('Order updated successfully');
       closeEditModal();
@@ -111,6 +114,7 @@ function Cart() {
                 <th>District</th>
                 <th>State</th>
                 <th>Phone Number</th>
+                <th>Order Special Instructions</th>
                 <th>Status</th>
                 <th>Actions</th>
               </tr>
@@ -126,6 +130,7 @@ function Cart() {
                   <td>{order.district}</td>
                   <td>{order.state}</td>
                   <td>{order.phone_number}</td>
+                  <td>{order.notes}</td>
                   <td>
                     <span className={`badge bg-${order.status === 'Pending' ? 'warning' : order.status === 'Delivered' ? 'success' : 'info'}`}>
                       {order.status}
@@ -254,6 +259,19 @@ function Cart() {
                       value={formData.phone_number}
                       onChange={handleInputChange}
                       required
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <label htmlFor="notes" className="form-label">
+                      Order Special Instructions
+                    </label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="notes"
+                      name="notes"
+                      value={formData.notes}
+                      onChange={handleInputChange}
                     />
                   </div>
                 </div>
