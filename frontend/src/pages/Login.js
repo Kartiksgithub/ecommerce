@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import API from '../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link} from 'react-router-dom';
 
 function Login() {
 
@@ -61,9 +61,25 @@ function Login() {
   };
 
   return (
-    <div className="container mt-5">
-
-      <h2>Login</h2>
+  <div
+    className="container d-flex justify-content-center align-items-center"
+    style={{ minHeight: '90vh' }}
+  >
+    <div
+      className="p-5 shadow-lg"
+      style={{
+        width: '100%',
+        maxWidth: '450px',
+        backgroundColor: '#FFF8F3',
+        borderRadius: '25px'
+      }}
+    >
+      <h2
+        className="text-center mb-4 fw-bold"
+        style={{ color: '#5C4033' }}
+      >
+        Welcome Back
+      </h2>
 
       <form onSubmit={handleSubmit}>
 
@@ -73,24 +89,60 @@ function Login() {
           placeholder="Username"
           className="form-control mb-3"
           onChange={handleChange}
+          required
+          style={{
+            borderRadius: '12px',
+            padding: '12px'
+          }}
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
-          className="form-control mb-3"
+          className="form-control mb-4"
           onChange={handleChange}
+          required
+          style={{
+            borderRadius: '12px',
+            padding: '12px'
+          }}
         />
 
-        <button className="btn btn-primary">
+        <button
+          className="btn w-100"
+          style={{
+            backgroundColor: '#D4A373',
+            color: 'white',
+            borderRadius: '12px',
+            padding: '10px',
+            fontWeight: 'bold'
+          }}
+        >
           Login
         </button>
 
       </form>
 
+      <p
+        className="text-center mt-4"
+        style={{ color: '#7A5C4D' }}
+      >
+        Don’t have an account?{' '}
+        <Link
+          to="/register"
+          style={{
+            color: '#A26769',
+            fontWeight: 'bold',
+            textDecoration: 'none'
+          }}
+        >
+          Create Account
+        </Link>
+      </p>
     </div>
-  );
+  </div>
+);
 }
 
 export default Login;

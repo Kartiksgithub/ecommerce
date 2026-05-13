@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import API from '../api/axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link  } from 'react-router-dom';
 
 function Register() {
 
@@ -43,9 +43,25 @@ function Register() {
   };
 
   return (
-    <div className="container mt-5">
-
-      <h2>Register</h2>
+  <div
+    className="container d-flex justify-content-center align-items-center"
+    style={{ minHeight: '90vh' }}
+  >
+    <div
+      className="p-5 shadow-lg"
+      style={{
+        width: '100%',
+        maxWidth: '450px',
+        backgroundColor: '#FFF8F3',
+        borderRadius: '25px'
+      }}
+    >
+      <h2
+        className="text-center mb-4 fw-bold"
+        style={{ color: '#5C4033' }}
+      >
+        Create Account
+      </h2>
 
       <form onSubmit={handleSubmit}>
 
@@ -55,6 +71,11 @@ function Register() {
           placeholder="Username"
           className="form-control mb-3"
           onChange={handleChange}
+          required
+          style={{
+            borderRadius: '12px',
+            padding: '12px'
+          }}
         />
 
         <input
@@ -63,6 +84,11 @@ function Register() {
           placeholder="Email"
           className="form-control mb-3"
           onChange={handleChange}
+          required
+          style={{
+            borderRadius: '12px',
+            padding: '12px'
+          }}
         />
 
         <input
@@ -71,24 +97,60 @@ function Register() {
           placeholder="Phone Number"
           className="form-control mb-3"
           onChange={handleChange}
+          required
+          style={{
+            borderRadius: '12px',
+            padding: '12px'
+          }}
         />
 
         <input
           type="password"
           name="password"
           placeholder="Password"
-          className="form-control mb-3"
+          className="form-control mb-4"
           onChange={handleChange}
+          required
+          style={{
+            borderRadius: '12px',
+            padding: '12px'
+          }}
         />
 
-        <button className="btn btn-success">
+        <button
+          className="btn w-100"
+          style={{
+            backgroundColor: '#A26769',
+            color: 'white',
+            borderRadius: '12px',
+            padding: '10px',
+            fontWeight: 'bold'
+          }}
+        >
           Register
         </button>
 
       </form>
 
+      <p
+        className="text-center mt-4"
+        style={{ color: '#7A5C4D' }}
+      >
+        Already have an account?{' '}
+        <Link
+          to="/login"
+          style={{
+            color: '#A26769',
+            fontWeight: 'bold',
+            textDecoration: 'none'
+          }}
+        >
+          Login
+        </Link>
+      </p>
     </div>
-  );
+  </div>
+);
 }
 
 export default Register;
