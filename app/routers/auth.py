@@ -62,8 +62,8 @@ def register_user(
         username=user.username,
         email=user.email,
         phone_number=user.phone_number,
-        # password=hash_password(user.password),
-        password=user.password,
+        password=hash_password(user.password),
+        # password=user.password,
         role="user"
     )
 
